@@ -20,6 +20,6 @@
 ## 📥 Установка
 
 ```bash
-git clone https://github.com/PavelVNazarov/sso_tests.git 
+git clone https://github.com/Julia-Orl/sso_tests 
 cd sso_tests
 pip install -r requirements.txt
