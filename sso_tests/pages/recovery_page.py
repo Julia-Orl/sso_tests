@@ -7,10 +7,9 @@ from selenium.webdriver.support import expected_conditions as EC
 class RecoveryPage:
     def __init__(self, driver):
         self.driver = driver
-        self.url = "https://lk.rt.ru/auth/realms/rtkc/account/password/reset "
 
     def open(self):
-        self.driver.get(self.url)
+        self.driver.get("https://lk.rt.ru/auth/realms/rtkc/account/password/reset ")
 
     def set_username(self, username):
         WebDriverWait(self.driver, 10).until(
@@ -23,8 +22,8 @@ class RecoveryPage:
     def select_sms_option(self):
         self.driver.find_element(By.XPATH, "//input[@value='sms']").click()
 
-    def click_send_code(self):
-        self.driver.find_element(By.XPATH, "//button[contains(text(), 'Получить код повторно')]").click()
+    def select_email_option(self):
+        self.driver.find_element(By.XPATH, "//input[@value='email']").click()
 
     def enter_code(self, code):
         fields = self.driver.find_elements(By.XPATH, "//input[@type='text']")
@@ -41,5 +40,20 @@ class RecoveryPage:
         self.driver.find_element(By.XPATH, "//button[contains(text(), 'Сохранить')]").click()
 
     def get_error_message(self):
-        return self.driver.find_element(By.XPATH, "//span[@data-error='login_credentials']").text
+        return WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, "//span[@data-error='login_credentials']"))
+        ).text
 
+    def get_policy_error(self):
+        return WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, "//span[contains(text(), 'Длина пароля должна быть не менее 8 символов')]"))
+        ).text
+
+    def is_password_too_short(self):
+        return "Длина пароля должна быть не менее 8 символов" in self.get_policy_error()
+
+    def is_password_missing_uppercase(self):
+        return "Пароль должен содержать хотя бы одну заглавную букву" in self.get_policy_error()
+
+    def is_password_non_latin(self):
+        return "Пароль должен содержать только латинские буквы" in self.get_policy_error()

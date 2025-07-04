@@ -1,0 +1,14 @@
+sso_tests/
+├── pages/
+│   ├── login_page.py
+│   ├── recovery_page.py
+│   └── registration_page.py
+├── tests/
+│   ├── test_login.py
+│   ├── test_recovery.py
+│   └── test_registration.py
+├── utils/
+│   └── helpers.py
+├── conftest.py
+├── requirements.txt
+└── README.md
